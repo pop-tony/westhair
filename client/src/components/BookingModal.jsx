@@ -18,7 +18,8 @@ export default function BookingModal({ isOpen, onClose, service, barber }) {
   const next7Days = Array.from({ length: 7 }, (_, i) => addDays(new Date(), i));
   const key = import.meta.env.VITE_PAYSTACK_LIVE_PUBLIC_KEY;
   const availableBarbers = service? barbers.filter(b => service.barbers.includes(b.id)) : [];
-
+  const backendUrl = import.meta.env.VITE_BACKEND_URL;
+  
   const handlePaymentSuccess = async (response) => {
   
     try {
@@ -69,7 +70,7 @@ export default function BookingModal({ isOpen, onClose, service, barber }) {
   const createBooking = async (ref) => {
 
     try {
-      const book = await axios.post("http://localhost:5005/api/order/consult", {
+      const book = await axios.post(`${backendUrl}/api/order/consult`, {
         service: service.name,
         barber: selectedBarber.name,
         date: selectedDate,
