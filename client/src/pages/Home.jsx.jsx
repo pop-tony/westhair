@@ -1,7 +1,7 @@
 import React from 'react'
 import { useState } from 'react';
 import { motion } from 'framer-motion';
-import { Scissors, Sparkles, ShoppingBag, Star, Clock, MapPin, Phone, Mail, ArrowRight, CheckCircle2 } from 'lucide-react';
+import { Scissors, ShoppingBag } from 'lucide-react';
 import { useCart } from '../context/CartContext';
 import Navbar from '../components/Navbar';
 import Footer from '../components/Footer';
@@ -10,10 +10,10 @@ import ProductDetailModal from '../components/ProductDetailModal';
 import { Toaster } from 'sonner';
 import BarberCard from '../components/BarberCard';
 import BookingModal from '../components/BookingModal';
-import { services, gallery, timeSlots, barbers, products } from '../data/barbershopData';
+import { services, gallery, barbers, products } from '../data/barbershopData';
+import ProductsSection from '../components/ProductSection';
 
 export default function Home() {
-  const [darkMode, setDarkMode] = useState(false);
   const [selectedService, setSelectedService] = useState(null);
   const [selectedBarber, setSelectedBarber] = useState(null);
   const [selectedProduct, setSelectedProduct] = useState(null);
@@ -32,7 +32,7 @@ export default function Home() {
 
   const handleBookBarber = (barber) => {
     setSelectedBarber(barber);
-    setSelectedService(services[0]); // Default to first service, user can change
+    setSelectedService(services[0]);
     setIsBookingOpen(true);
   };
 
@@ -46,12 +46,12 @@ export default function Home() {
   };
 
   return (
-    <div className={darkMode? 'dark' : ''}>
+    <div className='bg-whit dark:bg-zinc-950'>
       <Toaster position="top-center" richColors />
-      <Navbar darkMode={darkMode} setDarkMode={setDarkMode} />
+      <Navbar />
 
       {/* Hero */}
-      <section className="relative h- overflow-hidden pt-16 lg:pt-20">
+      <section className="relative h-screen overflow-hidden pt-16 lg:pt-20">
         <img
           src="https://images.unsplash.com/photo-1585747860715-2ba37e788b70?q=80&w=1474"
           alt="Barbershop"
@@ -82,7 +82,7 @@ export default function Home() {
             <p className="mt-4 text-base text-white/70">
               Premium barbering & styling in East Legon. Walk-ins welcome.
             </p>
-            <div className="mt-10 flex flex-col gap-4 sm:flex-row sm:justify-center">
+            <div className="mt-10 mb-3 flex flex-col gap-4 sm:flex-row sm:justify-center">
               <button
                 type="button"
                 onClick={() => scrollTo('services')}
@@ -103,7 +103,7 @@ export default function Home() {
       </section>
 
       {/* Services */}
-      <section id="services" className="mx-auto max-w-7xl px-6 py-20">
+      <section id="services" className="mx-auto max-w-7xl bg-white px-6 py-20 transition-colors dark:bg-zinc-950">
         <div className="text-center">
           <h2 className="text-4xl font-black text-zinc-900 dark:text-white sm:text-5xl">Our Services</h2>
           <p className="mt-4 text-zinc-600 dark:text-zinc-400">Expert cuts, color & grooming</p>
@@ -117,7 +117,7 @@ export default function Home() {
               onClick={() => setFilter(cat)}
               className={`whitespace-nowrap rounded-full px-5 py-2 text-sm font-semibold transition ${
                 filter === cat
-                ? 'bg-zinc-900 text-white dark:bg-white dark:text-black'
+               ? 'bg-zinc-900 text-white dark:bg-white dark:text-black'
                   : 'bg-white text-zinc-700 ring-1 ring-zinc-200 hover:bg-zinc-100 dark:bg-zinc-800 dark:text-zinc-300 dark:ring-white/10'
               }`}
             >
@@ -138,7 +138,7 @@ export default function Home() {
             >
               <div className="relative aspect-[4/3] overflow-hidden">
                 <img src={service.image} alt={service.name} className="h-full w-full object-cover transition duration-500 group-hover:scale-110" />
-                <div className="absolute top-2 right-2 rounded-full bg-white/90 px-2 py-1 text-xs font-bold text-zinc-900 backdrop-blur sm:top-3 sm:right-3 sm:px-3 sm:text-sm">
+                <div className="absolute top-2 right-2 rounded-full bg-white/90 px-2 py-1 text-xs font-bold text-zinc-900 backdrop-blur dark:bg-zinc-900/90 dark:text-white sm:top-3 sm:right-3 sm:px-3 sm:text-sm">
                   ${service.price}
                 </div>
               </div>
@@ -164,70 +164,10 @@ export default function Home() {
       </section>
 
       {/* Products */}
-      <section id="products" className="bg-white py-20 dark:bg-zinc-900">
-        <div className="mx-auto max-w-7xl px-6">
-          <div className="text-center">
-            <h2 className="text-4xl font-black text-zinc-900 dark:text-white sm:text-5xl">Shop Products</h2>
-            <p className="mt-4 text-zinc-600 dark:text-zinc-400">Professional grade for home use</p>
-          </div>
-
-          <div className="mt-10 grid grid-cols-2 gap-3 sm:grid-cols-2 sm:gap-4 lg:grid-cols-4 lg:gap-6">
-            {products.map(product => (
-              <motion.div
-                key={product.id}
-                whileHover={{ y: -4 }}
-                className="group overflow-hidden rounded-2xl bg-zinc-50 shadow-sm ring-1 ring-black/5 transition-shadow hover:shadow-xl dark:bg-zinc-800/50 dark:ring-white/10"
-              >
-                <div
-                  className="relative aspect-[3/4] overflow-hidden cursor-pointer"
-                  onClick={() => handleViewProduct(product)}
-                >
-                  <img src={product.image} alt={product.name} className="h-full w-full object-cover transition duration-500 group-hover:scale-110" />
-                  {product.originalPrice && (
-                    <div className="absolute top-2 left-2 rounded-full bg-rose-500 px-2 py-1 text-xs font-bold text-white sm:top-3 sm:left-3">
-                      SALE
-                    </div>
-                  )}
-                </div>
-                <div className="p-3 sm:p-4">
-                  <p className="text-xs text-zinc-500 dark:text-zinc-500">{product.category}</p>
-                  <h3
-                    className="mt-1 line-clamp-1 cursor-pointer text-sm font-semibold text-zinc-900 hover:text-rose-500 dark:text-white sm:text-base"
-                    onClick={() => handleViewProduct(product)}
-                  >
-                    {product.name}
-                  </h3>
-                  <div className="mt-2 flex items-center justify-between">
-                    <div className="flex items-baseline gap-2">
-                      <span className="text-base font-bold text-zinc-900 dark:text-white sm:text-lg">
-                        ${product.price}
-                      </span>
-                      {product.originalPrice && (
-                        <span className="text-xs text-zinc-500 line-through sm:text-sm">
-                          ${product.originalPrice}
-                        </span>
-                      )}
-                    </div>
-                    <button
-                      type="button"
-                      onClick={(e) => {
-                        e.stopPropagation();
-                        addToCart(product);
-                      }}
-                      className="rounded-full bg-zinc-900 p-1.5 text-white transition hover:bg-rose-500 hover:scale-110 active:scale-95 dark:bg-white dark:text-black sm:p-2"
-                    >
-                      <ShoppingBag className="h-3 w-3 sm:h-4 sm:w-4" />
-                    </button>
-                  </div>
-                </div>
-              </motion.div>
-            ))}
-          </div>
-        </div>
-      </section>
+      <ProductsSection  products={products} handleViewProduct={handleViewProduct} addToCart={addToCart}/>
 
       {/* Barbers */}
-      <section id="barbers" className="bg-white py-20 dark:bg-zinc-900">
+      <section id="barbers" className="bg-white py-20 transition-colors dark:bg-zinc-950">
         <div className="mx-auto max-w-7xl px-6">
           <h2 className="text-4xl font-black text-zinc-900 dark:text-white">Meet The Team</h2>
           <p className="mt-2 text-zinc-600 dark:text-zinc-400">Book your favorite barber directly</p>
@@ -240,7 +180,7 @@ export default function Home() {
       </section>
 
       {/* Gallery */}
-      <section id="gallery" className="mx-auto max-w-7xl px-6 py-20">
+      <section id="gallery" className="mx-auto max-w-7xl bg-white px-6 py-20 transition-colors dark:bg-zinc-950">
         <h2 className="text-4xl font-black text-zinc-900 dark:text-white">Recent Work</h2>
         <div className="mt-10 grid grid-cols-2 gap-4 sm:grid-cols-3 lg:grid-cols-6">
           {gallery.map((img, i) => (
@@ -255,10 +195,8 @@ export default function Home() {
         </div>
       </section>
 
-      {/* Footer with Contact */}
       <Footer />
 
-      {/* Modals */}
       <BookingModal
         isOpen={isBookingOpen}
         onClose={() => setIsBookingOpen(false)}

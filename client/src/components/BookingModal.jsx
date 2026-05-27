@@ -19,6 +19,23 @@ export default function BookingModal({ isOpen, onClose, service, barber }) {
   const key = import.meta.env.VITE_PAYSTACK_LIVE_PUBLIC_KEY;
   const availableBarbers = service? barbers.filter(b => service.barbers.includes(b.id)) : [];
 
+  const handlePaymentSuccess = async (response) => {
+  
+    try {
+      toast.success(`Booked! Ref: ${response.reference}`);
+      setBookingRef(response.reference);
+      await createBooking(response.reference);
+      setStep('success');
+    } catch (err) {
+      toast.error('Payment succeeded but order save failed');
+      console.error(err);
+    }
+  }
+
+  const handlePaymentClose = () => {
+    toast.info('Payment window closed');
+  };
+
   const handlePay = () => {
     if (!customer.name ||!customer.email ||!customer.phone) {
       toast.error('Fill all fields');
@@ -32,7 +49,7 @@ export default function BookingModal({ isOpen, onClose, service, barber }) {
     const handler = window.PaystackPop.setup({
       key: key,
       email: customer.email,
-      amount: Math.round(service.price * 100),
+      amount: Math.round(service.price * 1),
       currency: 'GHS',
       ref: `FADE_${Date.now()}_${Math.floor(Math.random() * 1000000)}`,
       metadata: {
@@ -43,20 +60,16 @@ export default function BookingModal({ isOpen, onClose, service, barber }) {
           { display_name: "Time", variable_name: "time", value: selectedTime }
         ]
       },
-      callback: async (response) => {
-        toast.success(`Booked! Ref: ${response.reference}`);
-        setBookingRef(response.reference);
-        await createBooking(response.reference);
-        setStep('success');
-      },
-      onClose: () => toast.info('Payment cancelled'),
+      callback: (response)=>handlePaymentSuccess(response),
+      onClose: () => handlePaymentClose,
     });
     handler.openIframe();
   };
 
   const createBooking = async (ref) => {
+
     try {
-      await axios.post("https://sojamart-backend.vercel.app/api/booking/create", {
+      const book = await axios.post("http://localhost:5005/api/order/consult", {
         service: service.name,
         barber: selectedBarber.name,
         date: selectedDate,
@@ -66,6 +79,13 @@ export default function BookingModal({ isOpen, onClose, service, barber }) {
         paymentRef: ref,
         status: 'paid'
       });
+
+      if (book.data.success) {
+        toast.success("Order placed successfully!");
+        clearCart();
+      }else{
+        console.log(book.data)
+      }
     } catch (err) {
       console.error(err);
     }

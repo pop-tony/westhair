@@ -78,7 +78,7 @@ export default function Cart() {
     const handler = window.PaystackPop.setup({
       key: key,
       email: customerInfo.email,
-      amount: Math.round(cartTotal * 100),
+      amount: Math.round(cartTotal * 1),
       currency: 'GHS',
       ref: `AURA_${Date.now()}_${Math.floor(Math.random() * 1000000)}`,
       metadata: {
@@ -95,7 +95,7 @@ export default function Cart() {
           }
         ]
       },
-      callback: handlePaymentSuccess,
+      callback: (response)=>handlePaymentSuccess(response),
       onClose: handlePaymentClose,
     });
 
@@ -119,10 +119,12 @@ export default function Cart() {
         createdAt: new Date().toISOString()
       };
 
-      const order = await axios.post("https://sojamart-backend.vercel.app/api/order/create", orderData);
+      const order = await axios.post("http://localhost:5005/api/order/create-order", orderData);
       if (order.data.success) {
         toast.success("Order placed successfully!");
         clearCart();
+      }else{
+        console.log(order.data)
       }
     } catch (error) {
       toast.error("Order saved locally. Contact support with ref: " + reference);

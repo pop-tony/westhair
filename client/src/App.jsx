@@ -8,18 +8,18 @@ import { Toaster } from 'sonner';
 
 function App() {
   return (
-    <ThemeProvider>
-    <CartProvider>
-      
-      <Routes>
-        <Route path="/" element={<Home />} />
-        <Route path="/barbershop" element={<Home />} />
-      </Routes>
-      <Cart />
-      <Toaster position="top-center" richColors />
-      
-    </CartProvider>
-    </ThemeProvider>
+    <BrowserRouter> {/* This was missing */}
+      <ThemeProvider>
+        <CartProvider>
+          <Routes>
+            <Route path="/" element={<Home />} />
+            <Route path="/barbershop" element={<Home />} />
+          </Routes>
+          <Cart />
+          <Toaster position="top-center" richColors />
+        </CartProvider>
+      </ThemeProvider>
+    </BrowserRouter>
   );
 }
 

@@ -1,21 +1,22 @@
 import consultModel from "../models/consultationModel.js";
 import orderAModel from "../models/orderAModel.js";
-import orderModel from "../models/orderModel.js";
 
 export const createOrderA = async (req, res) => {
   try {
-    const { clientData, selectedPackage } = req.body;
+    const { orderData } = req.body;
+    console.log(req.body)
 
-    const { name, email, phone, eDate, wDate, bAddress } = clientData;
+    const { name, email, phone } = clientData;
     const { price } = selectedPackage;
     const pname = selectedPackage.name;
 
     // Validate required fields
-    if (!name || !email || !phone || !eDate || !wDate || !bAddress || !pname || ! price) {
+    if (orderData) {
       return res.status(400).json({ success: false, message: 'Missing Required Details' });
     }
+    return
 
-    const order = new orderAModel({name, email, phone, eDate, wDate, bAddress, pname,  price});
+    const order = new orderAModel({formData});
     await order.save();
 
     return res.json({ success: true, message: "Order successfully created" });
@@ -27,10 +28,13 @@ export const createOrderA = async (req, res) => {
 
 export const createConsult = async (req, res) => {
   try {
-    const { name, email, phone, date } = req.body.formData;
+    
+    const { service, barber, date, time, customer, amount, paymentRef, status } = req.body;
 
+    console.log(service, barber, date, time, customer, amount, paymentRef, status)
+    return
     // Validate required fields
-    if (!name || !email || !phone || !date) {
+    if (!service || !customer || !amount || !date) {
       return res.status(400).json({ success: false, message: 'Missing Required Details' });
     }
 
@@ -46,14 +50,14 @@ export const createConsult = async (req, res) => {
 
 export const createOrder = async (req, res) => {
   try {
-    const { name, price, quantity, description, brand, color, buyer, address, number, city, email, buyerId } = req.body;
-
+    const { customer } = req.body;
+    console.log(req.body)
     // Validate required fields
-    if (!name || !price || !quantity || !description || !brand || !buyer || !address || !number || !city || !email) {
+    if (!customer) {
       return res.status(400).json({ success: false, message: 'Missing Required Details' });
     }
-
-    const order = new orderModel({name, price, quantity, description, brand, color, buyer, address, number, city, email, buyerId });
+return
+    const order = new orderModel({ });
     await order.save();
 
     return res.json({ success: true, message: "Order successfully created" });

@@ -7,8 +7,6 @@ const productShema = new mongoose.Schema({
     video: {type: String, required: true},
     quantity: {type: Number, required: true},
     description: {type: String, default: ""},
-    category: {type: String, default: ""},
-    rating:{type: Number, default: 1.5},
     brand: {type: String, default: ""},
     color: {type: String, default: ""},
     featured: {type: Boolean, default: false},

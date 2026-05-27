@@ -10,24 +10,37 @@ export function CartProvider({ children }) {
   const isInitialLoad = useRef(true);
 
   useEffect(() => {
+    console.log('[CART] Loading from localStorage...');
     try {
       const saved = localStorage.getItem('aura-cart');
+      console.log('[CART] Raw saved data:', saved);
       if (saved) {
         const parsed = JSON.parse(saved);
-        if (Array.isArray(parsed)) {
+        console.log('[CART] Parsed data:', parsed);
+        if (Array.isArray(parsed) && parsed.length > 0) {
           setCartItems(parsed);
+          console.log('[CART] Loaded', parsed.length, 'items');
+        } else {
+          console.log('[CART] No items to load or invalid format');
         }
+      } else {
+        console.log('[CART] Nothing in localStorage');
       }
     } catch (error) {
-      console.error('Failed to load cart:', error);
+      console.error('[CART] Failed to load cart:', error);
       localStorage.removeItem('aura-cart');
     } finally {
       isInitialLoad.current = false;
     }
   }, []);
 
+  // Save to localStorage
   useEffect(() => {
-    if (isInitialLoad.current) return;
+    if (isInitialLoad.current) {
+      
+      return;
+    }
+    
     localStorage.setItem('aura-cart', JSON.stringify(cartItems));
   }, [cartItems]);
 

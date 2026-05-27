@@ -31,6 +31,47 @@ export const products = [
     price: 12,
     image: "https://images.unsplash.com/photo-1598440947619-2c35fc9aa908?q=80&w=1335",
     description: "24hr hold, no flakes. For edges & baby hairs."
+  },
+  {
+    id: 5,
+    name: "Sea Salt Spray",
+    category: "Styling",
+    price: 16,
+    originalPrice: 20,
+    image: "https://images.unsplash.com/photo-1620916566398-39f1143ab7be?q=80&w=1287",
+    description: "Adds texture and volume. Beach waves look without the beach. Light hold."
+  },
+  {
+    id: 6,
+    name: "Beard Balm - Sandalwood",
+    category: "Grooming",
+    price: 19,
+    image: "https://images.unsplash.com/photo-1585751119414-ef2636f8aede?q=80&w=1470",
+    description: "Conditions + light hold. Tames flyaways. Shea butter & beeswax base."
+  },
+  {
+    id: 7,
+    name: "Scalp Scrub",
+    category: "Hair Care",
+    price: 25,
+    image: "https://images.unsplash.com/photo-1608248597279-f99d160bfcbc?q=80&w=1374",
+    description: "Exfoliates dead skin & product buildup. Peppermint & brown sugar. Use 2x weekly."
+  },
+  {
+    id: 8,
+    name: "Curl Defining Cream",
+    category: "Styling",
+    price: 21,
+    image: "https://images.unsplash.com/photo-1631729371254-42c2892f0e6e?q=80&w=1470",
+    description: "Reduces frizz, defines curls. Coconut oil + shea. For 3A-4C hair."
+  },
+  {
+    id: 9,
+    name: "After Shave Balm",
+    category: "Skincare",
+    price: 14,
+    image: "https://images.unsplash.com/photo-1596462502278-27bfdc403348?q=80&w=1480",
+    description: "Soothes razor burn & ingrown hairs. Aloe + witch hazel. Alcohol-free"
   }
 ];
 

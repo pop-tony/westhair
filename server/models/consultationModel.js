@@ -8,6 +8,6 @@ const ordersShema = new mongoose.Schema({
     status: {type: String, default: "booking made"},
 },{timestamps: true},)
 
-const consultModel = mongoose.models.consult || mongoose.model('consult', ordersShema);
+const consultModel = mongoose.models.hconsult || mongoose.model('hconsult', ordersShema);
 
 export default consultModel;

@@ -14,11 +14,13 @@ export default function ServiceCard({ service, onBook }) {
         <img
           src={service.image}
           alt={service.name}
-          className="h-full w-full object-cover transition group-hover:scale-110"
+          className="h-full w-full object-cover transition duration-300 group-hover:scale-110"
         />
-        <div className="absolute top-4 right-4 rounded-full bg-white/90 px-3 py-1 text-sm font-bold text-zinc-900 backdrop-blur">
+        <div className="absolute top-4 right-4 rounded-full bg-white/90 px-3 py-1 text-sm font-bold text-zinc-900 backdrop-blur dark:bg-zinc-900/90 dark:text-white">
           ${service.price}
         </div>
+      </div> {/* <-- This was missing */}
+      
       <div className="p-6">
         <p className="text-xs font-semibold uppercase tracking-wide text-amber-600 dark:text-amber-400">
           {service.category}
@@ -34,11 +36,10 @@ export default function ServiceCard({ service, onBook }) {
         <button
           type="button"
           onClick={() => onBook(service)}
-          className="mt-4 w-full rounded-full bg-zinc-900 py-3 font-semibold text-white transition hover:bg-amber-500 dark:bg-white dark:text-black dark:hover:bg-amber-500 dark:hover:text-white"
+          className="mt-4 w-full rounded-full bg-zinc-900 py-3 font-semibold text-white transition hover:bg-amber-500 active:scale-95 dark:bg-white dark:text-black dark:hover:bg-amber-500 dark:hover:text-white"
         >
           Book This
         </button>
-        </div>
       </div>
     </motion.div>
   );

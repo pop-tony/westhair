@@ -1,3 +1,4 @@
+import React from 'react'
 import { motion, AnimatePresence } from 'framer-motion';
 import { X, ShoppingBag, Star } from 'lucide-react';
 import { useCart } from '../context/CartContext';
@@ -5,7 +6,7 @@ import { useCart } from '../context/CartContext';
 export default function ProductDetailModal({ product, isOpen, onClose }) {
   const { addToCart } = useCart();
 
-  if (!isOpen ||!product) return null;
+  if (!isOpen || !product) return null;
 
   const handleAddToCart = () => {
     addToCart(product);
@@ -27,12 +28,12 @@ export default function ProductDetailModal({ product, isOpen, onClose }) {
         animate={{ opacity: 1, scale: 1, y: 0 }}
         exit={{ opacity: 0, scale: 0.95, y: 20 }}
         transition={{ type: 'spring', damping: 25, stiffness: 300 }}
-        className="fixed inset-x-4 top-[50%] z-[110] mx-auto max-w-2xl translate-y-[-50%] rounded-3xl bg-white shadow-2xl dark:bg-zinc-900 md:inset-x-auto md:w-full"
+        className="fixed inset-x-4 top-[50%] z-[110] mx-auto max-w-2xl translate-y-[-50%] rounded-3xl bg-white shadow-2xl transition-colors dark:bg-zinc-900 md:inset-x-auto md:w-full"
       >
         <button
           type="button"
           onClick={onClose}
-          className="absolute right-4 top-4 z-10 rounded-lg bg-white/80 p-2 text-zinc-500 backdrop-blur hover:bg-white hover:text-zinc-900 dark:bg-zinc-900/80 dark:text-zinc-400 dark:hover:bg-zinc-900 dark:hover:text-white"
+          className="absolute right-4 top-4 z-10 rounded-lg bg-white/80 p-2 text-zinc-500 backdrop-blur transition-colors hover:bg-white hover:text-zinc-900 dark:bg-zinc-900/80 dark:text-zinc-400 dark:hover:bg-zinc-900 dark:hover:text-white"
         >
           <X className="h-5 w-5" />
         </button>

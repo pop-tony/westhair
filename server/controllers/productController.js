@@ -3,7 +3,7 @@ import cloudinary from "../lib/cloudinary.js";
 
 export const createProduct = async (req, res) => {
   try {
-    const { name, price, image, video, quantity, description, brand, color, topSell, featured, discount, category, rating } = req.body;
+    const { name, price, image, video, quantity, description, brand, color, topSell, featured, discount } = req.body;
 
     // Validate required fields
     if (!name || !price || !quantity) {
@@ -34,7 +34,7 @@ export const createProduct = async (req, res) => {
     }
 
     // Create product
-    const product = new productModel({ name, price, quantity, description, brand, color, image: imageUrl, video: videoUrl, topSell, featured, discount, category, rating });
+    const product = new productModel({ name, price, quantity, description, brand, color, image: imageUrl, video: videoUrl, topSell, featured, discount });
     await product.save();
 
     return res.json({ success: true, message: "Product successfully added" });

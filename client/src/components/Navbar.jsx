@@ -1,11 +1,11 @@
 import React from 'react'
 import { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Menu, X, ShoppingBag, Sun, Moon, Scissors } from 'lucide-react';
+import { Menu, X, ShoppingBag, Scissors } from 'lucide-react';
 import { useCart } from '../context/CartContext';
 import ThemeToggle from './ThemeToggle';
 
-export default function Navbar({ darkMode, setDarkMode }) {
+export default function Navbar() {
   const [isOpen, setIsOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
   const { cartCount, setIsCartOpen } = useCart();
@@ -17,8 +17,20 @@ export default function Navbar({ darkMode, setDarkMode }) {
   }, []);
 
   const scrollTo = (id) => {
-    document.getElementById(id)?.scrollIntoView({ behavior: 'smooth' });
     setIsOpen(false);
+    setTimeout(() => {
+      const element = document.getElementById(id);
+      if (element) {
+        const navHeight = 80;
+        const elementPosition = element.getBoundingClientRect().top;
+        const offsetPosition = elementPosition + window.pageYOffset - navHeight;
+        
+        window.scrollTo({
+          top: offsetPosition,
+          behavior: 'smooth'
+        });
+      }
+    }, 300);
   };
 
   const navLinks = [
@@ -40,17 +52,22 @@ export default function Navbar({ darkMode, setDarkMode }) {
     >
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         <div className="flex h-16 items-center justify-between lg:h-20">
-          <div className="flex items-center gap-2">
+          <button
+            type="button"
+            onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
+            className="flex items-center gap-2"
+          >
             <Scissors className="h-6 w-6 text-amber-500" />
             <span className="text-xl font-bold text-zinc-900 dark:text-white lg:text-2xl">
               Fade & Co
             </span>
-          </div>
+          </button>
 
           <div className="hidden items-center gap-8 lg:flex">
             {navLinks.map((link) => (
               <button
                 key={link.id}
+                type="button"
                 onClick={() => scrollTo(link.id)}
                 className="text-sm font-medium text-zinc-700 transition hover:text-amber-500 dark:text-zinc-300 dark:hover:text-amber-400"
               >
@@ -63,20 +80,24 @@ export default function Navbar({ darkMode, setDarkMode }) {
             <ThemeToggle />
 
             <button
+              type="button"
               onClick={() => setIsCartOpen(true)}
               className="relative rounded-lg p-2 text-zinc-700 transition hover:bg-zinc-100 dark:text-zinc-300 dark:hover:bg-white/10"
+              aria-label="Open cart"
             >
               <ShoppingBag className="h-5 w-5" />
               {cartCount > 0 && (
-                <span className="absolute -right-1 -top-1 flex h-5 w-5 items-center justify-center rounded-full bg-amber-500 text-xs font-bold text-white">
+                <span className="absolute -right-1 -top-1 flex h-5 w-5 items-center justify-center rounded-full bg-amber-500 text-xs font-bold text-black">
                   {cartCount}
                 </span>
               )}
             </button>
 
             <button
+              type="button"
               onClick={() => setIsOpen(!isOpen)}
               className="rounded-lg p-2 text-zinc-700 transition hover:bg-zinc-100 dark:text-zinc-300 dark:hover:bg-white/10 lg:hidden"
+              aria-label="Toggle menu"
             >
               {isOpen ? <X className="h-5 w-5" /> : <Menu className="h-5 w-5" />}
             </button>
@@ -96,6 +117,7 @@ export default function Navbar({ darkMode, setDarkMode }) {
               {navLinks.map((link) => (
                 <button
                   key={link.id}
+                  type="button"
                   onClick={() => scrollTo(link.id)}
                   className="block w-full rounded-lg px-4 py-3 text-left text-sm font-medium text-zinc-700 transition hover:bg-zinc-100 dark:text-zinc-300 dark:hover:bg-white/10"
                 >

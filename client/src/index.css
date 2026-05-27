@@ -1,39 +1,46 @@
 
-@import url('https://fonts.googleapis.com/css2?family=Outfit:wght@100..900&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Manrope:wght@200..800&display=swap');
 
 @import "tailwindcss";
 
+@custom-variant dark (&:where(.dark, .dark *));
+
 *{
-    font-family:'Courier New', "Courier", "monospace" "Outfit", 'sans-serif',
+  font-family: "Manrope", sans-serif;
+  font-weight: 500;
 }
 
-.animate-marquee {
-  animation: marquee 30s linear infinite;
+@theme {
+  --color-primary: #5044E5;
 }
 
-@keyframes marquee {
-  10% {
-    transform: translateX(0);
-  }
-  100% {
-    transform: translateX(-100%);
-  }
-}
-
-.pic:hover .vid{
-    display: block;
-} 
-
-.scrollbar-hide::-webkit-scrollbar {
+.hide-scrollbar::-webkit-scrollbar {
   display: none;
 }
-
-@keyframes blob {
-  0% { transform: translate(0px, 0px) scale(1); }
-  33% { transform: translate(30px, -50px) scale(1.1); }
-  66% { transform: translate(-20px, 20px) scale(0.9); }
-  100% { transform: translate(0px, 0px) scale(1); }
+.hide-scrollbar {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
 }
-.animate-blob { animation: blob 7s infinite; }
-.animation-delay-2000 { animation-delay: 2s; }
-.animation-delay-4000 { animation-delay: 4s; }
+
+@media print {
+  /* Hide interactive stuff */
+  button,.no-print {
+    display: none!important;
+  }
+
+  /* Force colors to print */
+    * {
+    -webkit-print-color-adjust: exact!important;
+    print-color-adjust: exact!important;
+  }
+
+  /* Make gradients solid for PDF */
+ .bg-gradient-to-r,.bg-gradient-to-br {
+    background: #f43f5e!important; /* rose-500 */
+  }
+
+  /* Clean backgrounds */
+  body {
+    background: white!important;
+  }
+}
