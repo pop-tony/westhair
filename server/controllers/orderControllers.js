@@ -6,15 +6,15 @@ export const createOrderA = async (req, res) => {
     const { orderData } = req.body;
     console.log(req.body)
 
-    const { name, email, phone } = clientData;
-    const { price } = selectedPackage;
-    const pname = selectedPackage.name;
+    //const { name, email, phone } = clientData;
+    //const { price } = selectedPackage;
+    //const pname = selectedPackage.name;
 
     // Validate required fields
-    if (orderData) {
+    if (!orderData) {
       return res.status(400).json({ success: false, message: 'Missing Required Details' });
     }
-    return
+    return res.json({ success: true, message: "Order successfully created" });
 
     const order = new orderAModel({formData});
     await order.save();
@@ -32,11 +32,13 @@ export const createConsult = async (req, res) => {
     const { service, barber, date, time, customer, amount, paymentRef, status } = req.body;
 
     console.log(service, barber, date, time, customer, amount, paymentRef, status)
-    return
+    
     // Validate required fields
     if (!service || !customer || !amount || !date) {
       return res.status(400).json({ success: false, message: 'Missing Required Details' });
     }
+
+    return res.json({ success: true, message: "Consultation successfully booked" });
 
     const consult = new consultModel({name, email, phone, date});
     await consult.save();
@@ -50,13 +52,13 @@ export const createConsult = async (req, res) => {
 
 export const createOrder = async (req, res) => {
   try {
-    const { customer } = req.body;
+    const { orderData } = req.body;
     console.log(req.body)
     // Validate required fields
-    if (!customer) {
+    if (!orderData) {
       return res.status(400).json({ success: false, message: 'Missing Required Details' });
     }
-return
+    return res.json({ success: true, message: "Order successfully created" });
     const order = new orderModel({ });
     await order.save();
 

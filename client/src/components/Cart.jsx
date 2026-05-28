@@ -70,9 +70,9 @@ export default function Cart() {
 
     const handlePaymentSuccess = async (response) => {
       try {
+        await createOrder(response.reference, checkoutItem);
         toast.success(`Payment complete! Ref: ${response.reference}`);
         setOrderRef(response.reference);
-        await createOrder(response.reference, checkoutItem);
         setCheckoutStep('success');
       } catch (err) {
         toast.error('Payment succeeded but order save failed');
