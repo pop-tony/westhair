@@ -138,7 +138,7 @@ export default function Cart() {
         createdAt: new Date().toISOString()
       };
 
-      const order = await axios.post(`${backendUrl}/api/order/create-order`, orderData);
+      const order = await axios.post(`${backendUrl}/api/order/create-order`, {orderData});
       if (order.data.success) {
         toast.success("Order placed successfully!");
         removeFromCart(item.cartItemId); // Remove only this item
