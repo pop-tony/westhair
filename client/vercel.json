@@ -2,7 +2,7 @@
     "rewrites": [
       { 
         "source": "/api/:path*", 
-        "destination": "https://sojamart-backend.vercel.app/api/:path*" 
+        "destination": "https://westhair-backend.vercel.app/api/:path*" 
       },
       {
         "source": "/(.*)",

@@ -46,7 +46,7 @@ export default function Cart() {
   };
 
   const key = import.meta.env.VITE_PAYSTACK_LIVE_PUBLIC_KEY;
-  const backendUrl = import.meta.env.VITE_BACKEND_URL;
+  const backendUrl = import.meta.env.VITE_ENV === "development" ? import.meta.env.VITE_BACKEND_URL : "/api";
 
   const payWithPaystack = (e) => {
     e.preventDefault();
@@ -137,7 +137,7 @@ export default function Cart() {
         status: 'paid',
       };
 
-      const order = await axios.post(`${backendUrl}/api/order/create-order`, {orderData});
+      const order = await axios.post(`${backendUrl}/order/create-order`, {orderData});
       if (order.data.success) {
         toast.success("Order placed successfully!");
         removeFromCart(item.cartItemId); // Remove only this item
