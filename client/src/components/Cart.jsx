@@ -135,7 +135,6 @@ export default function Cart() {
         total: item.price * item.quantity,
         paymentRef: reference,
         status: 'paid',
-        createdAt: new Date().toISOString()
       };
 
       const order = await axios.post(`${backendUrl}/api/order/create-order`, {orderData});

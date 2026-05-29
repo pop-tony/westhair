@@ -30,20 +30,17 @@ export const createConsult = async (req, res) => {
   try {
     
     const { service, barber, date, time, customer, amount, paymentRef, status } = req.body;
-
-    console.log(service, barber, date, time, customer, amount, paymentRef, status)
+    const { name, email, phone } = customer;
     
     // Validate required fields
-    if (!service || !customer || !amount || !date) {
+    if (!service || !customer || !amount || !date || !paymentRef || !status || !barber || !time) {
       return res.status(400).json({ success: false, message: 'Missing Required Details' });
     }
 
-    return res.json({ success: true, message: "Consultation successfully booked" });
-
-    const consult = new consultModel({name, email, phone, date});
+    const consult = new consultModel({name, email, phone, date, service, barber, time, amount, paymentRef, status });
     await consult.save();
 
-    return res.json({ success: true, message: "Consultation successfully booked" });
+    return res.json({ success: true, message: "Section successfully booked" });
   } catch (error) {
     console.error(error);
     return res.status(500).json({ success: false, message: error.message });
@@ -51,15 +48,19 @@ export const createConsult = async (req, res) => {
 }
 
 export const createOrder = async (req, res) => {
+
   try {
-    const { orderData } = req.body;
-    console.log(req.body)
+    const { customer, items, total, paymentRef, status } = req.body.orderData;
+    const { name, email, phone, address } = customer;
+    const { price, quantity } = items[0];
+    const customerName = name;
+    const itemName = items[0].name
     // Validate required fields
-    if (!orderData) {
+    if (!customerName || !email || !phone || !address || !itemName || !price || !quantity || !total || !paymentRef || !status) {
       return res.status(400).json({ success: false, message: 'Missing Required Details' });
     }
-    return res.json({ success: true, message: "Order successfully created" });
-    const order = new orderModel({ });
+    
+    const order = new orderAModel({ customerName, email, phone, address, itemName, price, quantity, total, paymentRef, status });
     await order.save();
 
     return res.json({ success: true, message: "Order successfully created" });
